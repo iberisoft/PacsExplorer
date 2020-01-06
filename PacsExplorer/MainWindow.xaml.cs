@@ -56,7 +56,7 @@ namespace PacsExplorer
             await DoWork(async () =>
             {
                 var request = DicomQrClient.CreateStudyQueryRequest(StudyQuery);
-                var datasets = await m_DicomQrClient.Query(request);
+                var datasets = await m_DicomQrClient.QueryAsync(request);
                 Studies.ItemsSource = datasets.Select(dataset => new DicomStudy(dataset)).OrderByDescending(study => study.Date);
             });
         }
@@ -73,7 +73,7 @@ namespace PacsExplorer
             await DoWork(async () =>
             {
                 var request = DicomQrClient.CreateSeriesQueryRequest(study.Uid, SeriesQuery);
-                var datasets = await m_DicomQrClient.Query(request);
+                var datasets = await m_DicomQrClient.QueryAsync(request);
                 Series.ItemsSource = datasets.Select(dataset => new DicomSeries(dataset));
             });
         }
@@ -86,7 +86,7 @@ namespace PacsExplorer
             await DoWork(async () =>
             {
                 var request = DicomQrClient.CreateStudyRetrieveRequest(study.Uid);
-                await m_DicomQrClient.Retrieve(request, Save);
+                await m_DicomQrClient.RetrieveAsync(request, Save);
                 ShowFolder(study);
             });
         }
@@ -100,7 +100,7 @@ namespace PacsExplorer
             await DoWork(async () =>
             {
                 var request = DicomQrClient.CreateSeriesRetrieveRequest(study.Uid, series.Uid);
-                await m_DicomQrClient.Retrieve(request, Save);
+                await m_DicomQrClient.RetrieveAsync(request, Save);
                 ShowFolder(study);
             });
         }

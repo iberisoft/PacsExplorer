@@ -43,7 +43,7 @@ namespace DicomScu
             return request;
         }
 
-        public async Task<IEnumerable<DicomDataset>> Query(DicomCFindRequest request)
+        public async Task<IEnumerable<DicomDataset>> QueryAsync(DicomCFindRequest request)
         {
             var datasets = new List<DicomDataset>();
             request.OnResponseReceived += (_, response) =>
@@ -64,7 +64,7 @@ namespace DicomScu
 
         public static DicomCGetRequest CreateSeriesRetrieveRequest(string studyUid, string seriesUid) => new DicomCGetRequest(studyUid, seriesUid);
 
-        public async Task Retrieve(DicomCGetRequest request, Func<DicomDataset, Task<bool>> storeHandler)
+        public async Task RetrieveAsync(DicomCGetRequest request, Func<DicomDataset, Task<bool>> storeHandler)
         {
             async Task<DicomCStoreResponse> cStoreHandler(DicomCStoreRequest cStoreRequest)
             {
