@@ -1,19 +1,23 @@
-﻿using Microsoft.Extensions.Configuration;
-
-namespace PacsExplorer
+﻿namespace PacsExplorer
 {
     class Settings
     {
-        public Settings(string filePath) => Config = new ConfigurationBuilder().AddJsonFile(filePath).Build();
+        public ServerSettings Server { get; set; }
 
-        private IConfiguration Config { get; }
+        public ClientSettings Client { get; set; }
 
-        public string ServerHost => Config["Server:Host"];
+        public class ServerSettings
+        {
+            public string Host { get; set; }
 
-        public string ServerAeTitle => Config["Server:AeTitle"];
+            public string AeTitle { get; set; }
 
-        public int ServerPort => int.Parse(Config["Server:Port"]);
+            public int Port { get; set; }
+        }
 
-        public string ClientAeTitle => Config["Client:AeTitle"];
+        public class ClientSettings
+        {
+            public string AeTitle { get; set; }
+        }
     }
 }

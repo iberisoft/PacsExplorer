@@ -1,5 +1,6 @@
 ﻿using Dicom;
 using DicomScu;
+using Microsoft.Extensions.Configuration;
 using PacsExplorer.Converters;
 using System;
 using System.Diagnostics;
@@ -49,8 +50,9 @@ namespace PacsExplorer
 
             if (m_DicomQrClient == null)
             {
-                var settings = new Settings("appsettings.json");
-                m_DicomQrClient = new DicomQrClient(settings.ServerHost, settings.ServerPort, settings.ServerAeTitle, settings.ClientAeTitle);
+                var config = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
+                var settings = config.Get<Settings>();
+                m_DicomQrClient = new DicomQrClient(settings.Server.Host, settings.Server.Port, settings.Server.AeTitle, settings.Client.AeTitle);
             }
 
             await DoWork(async () =>
