@@ -14,7 +14,7 @@ namespace PacsExplorer
 
         public string Modality { get; set; } = "";
 
-        public DateTime StartDate { get; set; } = DateTime.Today;
+        public DateTime StartDate { get; set; } = DateTime.Today.AddYears(-1);
 
         public DateTime EndDate { get; set; } = DateTime.Today;
 
