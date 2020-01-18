@@ -91,6 +91,7 @@ namespace PacsExplorer
 
             await DoWork(async () =>
             {
+                DeleteFolder(study);
                 if (CGetOption.IsChecked == true)
                 {
                     var request = DicomQrClient.CreateStudyGetRequest(study.Uid);
@@ -114,6 +115,7 @@ namespace PacsExplorer
 
             await DoWork(async () =>
             {
+                DeleteFolder(study);
                 if (CGetOption.IsChecked == true)
                 {
                     var request = DicomQrClient.CreateSeriesGetRequest(study.Uid, series.Uid);
@@ -164,7 +166,19 @@ namespace PacsExplorer
             if (Directory.Exists(StoragePath))
             {
                 var folderPath = Path.Combine(StoragePath, study.Uid);
-                Process.Start("explorer", folderPath);
+                Process.Start(File.Exists(m_Settings.ImageViewerPath) ? m_Settings.ImageViewerPath : "explorer", folderPath);
+            }
+        }
+
+        private void DeleteFolder(DicomStudy study)
+        {
+            if (Directory.Exists(StoragePath))
+            {
+                var folderPath = Path.Combine(StoragePath, study.Uid);
+                if (Directory.Exists(folderPath))
+                {
+                    Directory.Delete(folderPath, true);
+                }
             }
         }
     }

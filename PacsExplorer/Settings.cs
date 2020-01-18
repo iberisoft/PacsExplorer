@@ -6,6 +6,8 @@
 
         public ClientSettings Client { get; set; }
 
+        public string ImageViewerPath { get; set; }
+
         public class ServerSettings
         {
             public string Host { get; set; }
