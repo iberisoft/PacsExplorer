@@ -18,6 +18,8 @@
         public class ClientSettings
         {
             public string AeTitle { get; set; }
+
+            public int Port { get; set; }
         }
     }
 }

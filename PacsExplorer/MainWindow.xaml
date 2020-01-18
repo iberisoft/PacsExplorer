@@ -37,6 +37,8 @@
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="3*" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
@@ -44,9 +46,11 @@
                         Click="RetrieveStudy" />
                 <Button Grid.Column="1" Content="Retrieve Series" IsEnabled="{Binding ElementName=Series, Path=SelectedItem, Converter={StaticResource NotNullToBooleanConverter}}"
                         Click="RetrieveSeries" />
-                <TextBlock Grid.Column="2" Text="Store To:" />
-                <TextBox Grid.Column="3" Text="{Binding Path=StoragePath}" />
-                <ProgressBar Name="RetrievingProgress" Grid.Column="4" />
+                <RadioButton Name="CGetOption" Grid.Column="2" VerticalAlignment="Center" Content="C-GET" IsChecked="True" />
+                <RadioButton Grid.Column="3" VerticalAlignment="Center" Content="C-MOVE" />
+                <TextBlock Grid.Column="4" VerticalAlignment="Center" Text="Store To:" />
+                <TextBox Grid.Column="5" Text="{Binding Path=StoragePath}" />
+                <ProgressBar Name="RetrievingProgress" Grid.Column="6" />
             </Grid>
             <DataGrid Name="Studies" Grid.Row="1" SelectionMode="Single" AutoGeneratingColumn="Studies_AutoGeneratingColumn" SelectionChanged="Studies_SelectionChanged" />
             <DataGrid Name="Series" Grid.Row="2" SelectionMode="Single" />

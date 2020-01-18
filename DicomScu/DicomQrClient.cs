@@ -15,6 +15,10 @@ namespace DicomScu
         {
             m_Client = new DicomClient(serverHost, serverPort, false, clientAeTitle, serverAeTitle);
             m_Client.NegotiateAsyncOps();
+
+            var presentationContexts = DicomPresentationContext.GetScpRolePresentationContextsFromStorageUids(DicomStorageCategory.Image, DicomTransferSyntax.ExplicitVRLittleEndian,
+                DicomTransferSyntax.ImplicitVRLittleEndian, DicomTransferSyntax.ImplicitVRBigEndian);
+            m_Client.AdditionalPresentationContexts.AddRange(presentationContexts);
         }
 
         public static DicomCFindRequest CreateStudyQueryRequest(IDicomQuery query)
@@ -60,9 +64,9 @@ namespace DicomScu
             return datasets;
         }
 
-        public static DicomCGetRequest CreateStudyRetrieveRequest(string studyUid) => new DicomCGetRequest(studyUid);
+        public static DicomCGetRequest CreateStudyGetRequest(string studyUid) => new DicomCGetRequest(studyUid);
 
-        public static DicomCGetRequest CreateSeriesRetrieveRequest(string studyUid, string seriesUid) => new DicomCGetRequest(studyUid, seriesUid);
+        public static DicomCGetRequest CreateSeriesGetRequest(string studyUid, string seriesUid) => new DicomCGetRequest(studyUid, seriesUid);
 
         public async Task RetrieveAsync(DicomCGetRequest request, Func<DicomDataset, Task<bool>> storeHandler)
         {
@@ -73,14 +77,31 @@ namespace DicomScu
             }
             m_Client.OnCStoreRequest += cStoreHandler;
 
-            var presentationContexts = DicomPresentationContext.GetScpRolePresentationContextsFromStorageUids(DicomStorageCategory.Image, DicomTransferSyntax.ExplicitVRLittleEndian,
-                DicomTransferSyntax.ImplicitVRLittleEndian, DicomTransferSyntax.ImplicitVRBigEndian);
-            m_Client.AdditionalPresentationContexts.AddRange(presentationContexts);
-
             await m_Client.AddRequestAsync(request);
             await m_Client.SendAsync();
 
             m_Client.OnCStoreRequest -= cStoreHandler;
+        }
+
+        public static DicomCMoveRequest CreateStudyMoveRequest(string studyUid, string destinationAeTitle) => new DicomCMoveRequest(destinationAeTitle, studyUid);
+
+        public static DicomCMoveRequest CreateSeriesMoveRequest(string studyUid, string seriesUid, string destinationAeTitle) => new DicomCMoveRequest(destinationAeTitle, studyUid, seriesUid);
+
+        public async Task RetrieveAsync(DicomCMoveRequest request, Func<DicomDataset, Task<bool>> storeHandler, int destinationPort)
+        {
+            var server = (DicomStoreServer)DicomServer.Create<DicomStoreService, DicomStoreServer>(null, destinationPort);
+            server.AeTitle = request.DestinationAE;
+            server.OnCStoreRequest = cStoreRequest => storeHandler(cStoreRequest.Dataset).Result ? DicomStatus.Success : DicomStatus.QueryRetrieveUnableToPerformSuboperations;
+            request.OnResponseReceived += (_, response) =>
+            {
+                if (response.Status == DicomStatus.Success)
+                {
+                    server.Dispose();
+                }
+            };
+
+            await m_Client.AddRequestAsync(request);
+            await m_Client.SendAsync();
         }
     }
 }

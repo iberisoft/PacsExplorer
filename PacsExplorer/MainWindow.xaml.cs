@@ -18,9 +18,14 @@ namespace PacsExplorer
     /// </summary>
     public partial class MainWindow : Window
     {
+        readonly Settings m_Settings;
+
         public MainWindow()
         {
             InitializeComponent();
+
+            var config = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
+            m_Settings = config.Get<Settings>();
 
             DataContext = this;
         }
@@ -50,9 +55,7 @@ namespace PacsExplorer
 
             if (m_DicomQrClient == null)
             {
-                var config = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
-                var settings = config.Get<Settings>();
-                m_DicomQrClient = new DicomQrClient(settings.Server.Host, settings.Server.Port, settings.Server.AeTitle, settings.Client.AeTitle);
+                m_DicomQrClient = new DicomQrClient(m_Settings.Server.Host, m_Settings.Server.Port, m_Settings.Server.AeTitle, m_Settings.Client.AeTitle);
             }
 
             await DoWork(async () =>
@@ -83,12 +86,21 @@ namespace PacsExplorer
         private async void RetrieveStudy(object sender, RoutedEventArgs e)
         {
             var study = (DicomStudy)Studies.SelectedItem;
+            RetrievingProgress.Value = 0;
             RetrievingProgress.Maximum = study.ImageCount ?? 0;
 
             await DoWork(async () =>
             {
-                var request = DicomQrClient.CreateStudyRetrieveRequest(study.Uid);
-                await m_DicomQrClient.RetrieveAsync(request, Save);
+                if (CGetOption.IsChecked == true)
+                {
+                    var request = DicomQrClient.CreateStudyGetRequest(study.Uid);
+                    await m_DicomQrClient.RetrieveAsync(request, Save);
+                }
+                else
+                {
+                    var request = DicomQrClient.CreateStudyMoveRequest(study.Uid, m_Settings.Client.AeTitle);
+                    await m_DicomQrClient.RetrieveAsync(request, Save, m_Settings.Client.Port);
+                }
                 ShowFolder(study);
             });
         }
@@ -97,12 +109,21 @@ namespace PacsExplorer
         {
             var study = (DicomStudy)Studies.SelectedItem;
             var series = (DicomSeries)Series.SelectedItem;
+            RetrievingProgress.Value = 0;
             RetrievingProgress.Maximum = series.ImageCount ?? 0;
 
             await DoWork(async () =>
             {
-                var request = DicomQrClient.CreateSeriesRetrieveRequest(study.Uid, series.Uid);
-                await m_DicomQrClient.RetrieveAsync(request, Save);
+                if (CGetOption.IsChecked == true)
+                {
+                    var request = DicomQrClient.CreateSeriesGetRequest(study.Uid, series.Uid);
+                    await m_DicomQrClient.RetrieveAsync(request, Save);
+                }
+                else
+                {
+                    var request = DicomQrClient.CreateSeriesMoveRequest(study.Uid, series.Uid, m_Settings.Client.AeTitle);
+                    await m_DicomQrClient.RetrieveAsync(request, Save, m_Settings.Client.Port);
+                }
                 ShowFolder(study);
             });
         }

@@ -7,6 +7,9 @@
         <Style TargetType="Button">
             <Setter Property="Margin" Value="3" />
         </Style>
+        <Style TargetType="RadioButton">
+            <Setter Property="Margin" Value="3" />
+        </Style>
         <Style TargetType="TextBlock">
             <Setter Property="Margin" Value="3" />
         </Style>
