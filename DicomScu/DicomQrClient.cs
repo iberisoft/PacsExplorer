@@ -57,10 +57,15 @@ namespace DicomScu
             }
             m_Client.OnCStoreRequest += cStoreHandler;
 
-            await m_Client.AddRequestAsync(request);
-            await m_Client.SendAsync();
-
-            m_Client.OnCStoreRequest -= cStoreHandler;
+            try
+            {
+                await m_Client.AddRequestAsync(request);
+                await m_Client.SendAsync();
+            }
+            finally
+            {
+                m_Client.OnCStoreRequest -= cStoreHandler;
+            }
         }
 
         public static DicomCMoveRequest CreateStudyMoveRequest(string studyUid, string destinationAeTitle) => new DicomCMoveRequest(destinationAeTitle, studyUid);

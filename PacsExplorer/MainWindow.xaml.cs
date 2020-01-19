@@ -94,6 +94,10 @@ namespace PacsExplorer
                 IsEnabled = false;
                 await action();
             }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, Title, MessageBoxButton.OK, MessageBoxImage.Error);
+            }
             finally
             {
                 IsEnabled = true;
