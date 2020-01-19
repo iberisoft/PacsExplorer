@@ -24,8 +24,8 @@ namespace DicomScu
         public static DicomCFindRequest CreateStudyQueryRequest(IDicomQuery query)
         {
             var request = new DicomCFindRequest(DicomQueryRetrieveLevel.Study);
-            query?.CopyTo(request.Dataset);
             request.Dataset.AddOrUpdate(DicomTag.StudyInstanceUID, "");
+            query?.CopyTo(request.Dataset);
             return request;
         }
 
@@ -33,8 +33,8 @@ namespace DicomScu
         {
             var request = new DicomCFindRequest(DicomQueryRetrieveLevel.Series);
             request.Dataset.AddOrUpdate(DicomTag.StudyInstanceUID, studyUid);
-            query?.CopyTo(request.Dataset);
             request.Dataset.AddOrUpdate(DicomTag.SeriesInstanceUID, "");
+            query?.CopyTo(request.Dataset);
             return request;
         }
 
