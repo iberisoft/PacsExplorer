@@ -9,16 +9,16 @@ namespace DicomScu
 {
     public class DicomQrClient
     {
-        readonly DicomClient m_Client;
+        readonly Func<DicomClient> m_CreateClient;
 
         public DicomQrClient(string serverHost, int serverPort, string serverAeTitle, string clientAeTitle)
         {
-            m_Client = new DicomClient(serverHost, serverPort, false, clientAeTitle, serverAeTitle);
-            m_Client.NegotiateAsyncOps();
-
-            var presentationContexts = DicomPresentationContext.GetScpRolePresentationContextsFromStorageUids(DicomStorageCategory.Image, DicomTransferSyntax.ExplicitVRLittleEndian,
-                DicomTransferSyntax.ImplicitVRLittleEndian, DicomTransferSyntax.ImplicitVRBigEndian);
-            m_Client.AdditionalPresentationContexts.AddRange(presentationContexts);
+            m_CreateClient = () =>
+            {
+                var client = new DicomClient(serverHost, serverPort, false, clientAeTitle, serverAeTitle);
+                client.NegotiateAsyncOps();
+                return client;
+            };
         }
 
         public static DicomCFindRequest CreateStudyQueryRequest(IDicomQuery query)
@@ -40,8 +40,9 @@ namespace DicomScu
                 }
             };
 
-            await m_Client.AddRequestAsync(request);
-            await m_Client.SendAsync();
+            var client = m_CreateClient();
+            await client.AddRequestAsync(request);
+            await client.SendAsync();
 
             return datasets;
         }
@@ -55,16 +56,20 @@ namespace DicomScu
                 var success = await storeHandler(cStoreRequest.Dataset);
                 return new DicomCStoreResponse(cStoreRequest, success ? DicomStatus.Success : DicomStatus.QueryRetrieveUnableToPerformSuboperations);
             }
-            m_Client.OnCStoreRequest += cStoreHandler;
 
+            var client = m_CreateClient();
+            var presentationContexts = DicomPresentationContext.GetScpRolePresentationContextsFromStorageUids(DicomStorageCategory.Image, DicomTransferSyntax.ExplicitVRLittleEndian,
+                DicomTransferSyntax.ImplicitVRLittleEndian, DicomTransferSyntax.ImplicitVRBigEndian);
+            client.AdditionalPresentationContexts.AddRange(presentationContexts);
             try
             {
-                await m_Client.AddRequestAsync(request);
-                await m_Client.SendAsync();
+                client.OnCStoreRequest += cStoreHandler;
+                await client.AddRequestAsync(request);
+                await client.SendAsync();
             }
             finally
             {
-                m_Client.OnCStoreRequest -= cStoreHandler;
+                client.OnCStoreRequest -= cStoreHandler;
             }
         }
 
@@ -83,8 +88,9 @@ namespace DicomScu
                 }
             };
 
-            await m_Client.AddRequestAsync(request);
-            await m_Client.SendAsync();
+            var client = m_CreateClient();
+            await client.AddRequestAsync(request);
+            await client.SendAsync();
         }
     }
 }
