@@ -64,7 +64,7 @@ namespace PacsExplorer
             });
         }
 
-        private async void RetrieveStudy(object sender, RoutedEventArgs e)
+        private async void OpenStudy(object sender, RoutedEventArgs e)
         {
             var study = (DicomStudy)Studies.SelectedItem;
             RetrievingProgress.Value = 0;
@@ -83,7 +83,7 @@ namespace PacsExplorer
                     var request = DicomQrClient.CreateStudyMoveRequest(study.Uid, m_Settings.Client.AeTitle);
                     await m_DicomQrClient.RetrieveAsync(request, Save, m_Settings.Client.Port);
                 }
-                ShowFolder(study);
+                OpenFolder(study);
             });
         }
 
@@ -118,7 +118,7 @@ namespace PacsExplorer
             }
         }
 
-        private void ShowFolder(DicomStudy study)
+        private void OpenFolder(DicomStudy study)
         {
             if (Directory.Exists(StoragePath))
             {
