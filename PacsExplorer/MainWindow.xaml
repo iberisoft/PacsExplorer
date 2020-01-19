@@ -26,34 +26,23 @@
             <TextBox Text="{Binding Path=Description}" />
             <Button Content="Find" IsDefault="True" Click="Find" />
         </StackPanel>
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="3*" />
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
-            <Grid Grid.Row="0">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="3*" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <Button Grid.Column="0" Content="Retrieve Study" IsEnabled="{Binding ElementName=Studies, Path=SelectedItem, Converter={StaticResource NotNullToBooleanConverter}}"
-                        Click="RetrieveStudy" />
-                <Button Grid.Column="1" Content="Retrieve Series" IsEnabled="{Binding ElementName=Series, Path=SelectedItem, Converter={StaticResource NotNullToBooleanConverter}}"
-                        Click="RetrieveSeries" />
-                <RadioButton Name="CGetOption" Grid.Column="2" VerticalAlignment="Center" Content="C-GET" IsChecked="True" />
-                <RadioButton Grid.Column="3" VerticalAlignment="Center" Content="C-MOVE" />
-                <TextBlock Grid.Column="4" VerticalAlignment="Center" Text="Store To:" />
-                <TextBox Grid.Column="5" Text="{Binding Path=StoragePath}" />
-                <ProgressBar Name="RetrievingProgress" Grid.Column="6" />
-            </Grid>
-            <DataGrid Name="Studies" Grid.Row="1" SelectionMode="Single" AutoGeneratingColumn="Studies_AutoGeneratingColumn" SelectionChanged="Studies_SelectionChanged" />
-            <DataGrid Name="Series" Grid.Row="2" SelectionMode="Single" />
+        <Grid DockPanel.Dock="Top">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="2*" />
+                <ColumnDefinition Width="2*" />
+            </Grid.ColumnDefinitions>
+            <Button Grid.Column="0" Content="Retrieve" IsEnabled="{Binding ElementName=Studies, Path=SelectedItem, Converter={StaticResource NotNullToBooleanConverter}}"
+                    Click="RetrieveStudy" />
+            <RadioButton Name="CGetOption" Grid.Column="1" VerticalAlignment="Center" Content="C-GET" IsChecked="True" />
+            <RadioButton Grid.Column="2" VerticalAlignment="Center" Content="C-MOVE" />
+            <TextBlock Grid.Column="3" VerticalAlignment="Center" Text="Store To:" />
+            <TextBox Grid.Column="4" Text="{Binding Path=StoragePath}" />
+            <ProgressBar Name="RetrievingProgress" Grid.Column="5" />
         </Grid>
+        <DataGrid Name="Studies" SelectionMode="Single" AutoGeneratingColumn="Studies_AutoGeneratingColumn" />
     </DockPanel>
 </Window>

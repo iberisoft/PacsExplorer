@@ -29,24 +29,6 @@ namespace DicomScu
             return request;
         }
 
-        public static DicomCFindRequest CreateSeriesQueryRequest(string studyUid, IDicomQuery query)
-        {
-            var request = new DicomCFindRequest(DicomQueryRetrieveLevel.Series);
-            request.Dataset.AddOrUpdate(DicomTag.StudyInstanceUID, studyUid);
-            query?.CopyTo(request.Dataset);
-            request.Dataset.AddOrUpdate(DicomTag.SeriesInstanceUID, "");
-            return request;
-        }
-
-        public static DicomCFindRequest CreateImageQueryRequest(string seriesUid, IDicomQuery query)
-        {
-            var request = new DicomCFindRequest(DicomQueryRetrieveLevel.Image);
-            request.Dataset.AddOrUpdate(DicomTag.SeriesInstanceUID, seriesUid);
-            query?.CopyTo(request.Dataset);
-            request.Dataset.AddOrUpdate(DicomTag.SOPInstanceUID, "");
-            return request;
-        }
-
         public async Task<IEnumerable<DicomDataset>> QueryAsync(DicomCFindRequest request)
         {
             var datasets = new List<DicomDataset>();
@@ -66,8 +48,6 @@ namespace DicomScu
 
         public static DicomCGetRequest CreateStudyGetRequest(string studyUid) => new DicomCGetRequest(studyUid);
 
-        public static DicomCGetRequest CreateSeriesGetRequest(string studyUid, string seriesUid) => new DicomCGetRequest(studyUid, seriesUid);
-
         public async Task RetrieveAsync(DicomCGetRequest request, Func<DicomDataset, Task<bool>> storeHandler)
         {
             async Task<DicomCStoreResponse> cStoreHandler(DicomCStoreRequest cStoreRequest)
@@ -84,8 +64,6 @@ namespace DicomScu
         }
 
         public static DicomCMoveRequest CreateStudyMoveRequest(string studyUid, string destinationAeTitle) => new DicomCMoveRequest(destinationAeTitle, studyUid);
-
-        public static DicomCMoveRequest CreateSeriesMoveRequest(string studyUid, string seriesUid, string destinationAeTitle) => new DicomCMoveRequest(destinationAeTitle, studyUid, seriesUid);
 
         public async Task RetrieveAsync(DicomCMoveRequest request, Func<DicomDataset, Task<bool>> storeHandler, int destinationPort)
         {

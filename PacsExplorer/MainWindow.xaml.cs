@@ -32,8 +32,6 @@ namespace PacsExplorer
 
         public DicomStudyQuery StudyQuery { get; set; } = new DicomStudyQuery();
 
-        public DicomSeriesQuery SeriesQuery { get; set; } = new DicomSeriesQuery();
-
         public string StoragePath { get; set; } = @"D:\PacsExplorer";
 
         private void Studies_AutoGeneratingColumn(object sender, DataGridAutoGeneratingColumnEventArgs e)
@@ -66,23 +64,6 @@ namespace PacsExplorer
             });
         }
 
-        private async void Studies_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            var study = (DicomStudy)Studies.SelectedItem;
-            if (study == null)
-            {
-                Series.ItemsSource = null;
-                return;
-            }
-
-            await DoWork(async () =>
-            {
-                var request = DicomQrClient.CreateSeriesQueryRequest(study.Uid, SeriesQuery);
-                var datasets = await m_DicomQrClient.QueryAsync(request);
-                Series.ItemsSource = datasets.Select(dataset => new DicomSeries(dataset));
-            });
-        }
-
         private async void RetrieveStudy(object sender, RoutedEventArgs e)
         {
             var study = (DicomStudy)Studies.SelectedItem;
@@ -100,30 +81,6 @@ namespace PacsExplorer
                 else
                 {
                     var request = DicomQrClient.CreateStudyMoveRequest(study.Uid, m_Settings.Client.AeTitle);
-                    await m_DicomQrClient.RetrieveAsync(request, Save, m_Settings.Client.Port);
-                }
-                ShowFolder(study);
-            });
-        }
-
-        private async void RetrieveSeries(object sender, RoutedEventArgs e)
-        {
-            var study = (DicomStudy)Studies.SelectedItem;
-            var series = (DicomSeries)Series.SelectedItem;
-            RetrievingProgress.Value = 0;
-            RetrievingProgress.Maximum = series.ImageCount ?? 0;
-
-            await DoWork(async () =>
-            {
-                DeleteFolder(study);
-                if (CGetOption.IsChecked == true)
-                {
-                    var request = DicomQrClient.CreateSeriesGetRequest(study.Uid, series.Uid);
-                    await m_DicomQrClient.RetrieveAsync(request, Save);
-                }
-                else
-                {
-                    var request = DicomQrClient.CreateSeriesMoveRequest(study.Uid, series.Uid, m_Settings.Client.AeTitle);
                     await m_DicomQrClient.RetrieveAsync(request, Save, m_Settings.Client.Port);
                 }
                 ShowFolder(study);
