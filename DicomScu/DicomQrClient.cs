@@ -29,6 +29,15 @@ namespace DicomScu
             return request;
         }
 
+        public static DicomCFindRequest CreateSeriesQueryRequest(string studyUid, IDicomQuery query)
+        {
+            var request = new DicomCFindRequest(DicomQueryRetrieveLevel.Series);
+            request.Dataset.AddOrUpdate(DicomTag.StudyInstanceUID, studyUid);
+            query?.CopyTo(request.Dataset);
+            request.Dataset.AddOrUpdate(DicomTag.SeriesInstanceUID, "");
+            return request;
+        }
+
         public async Task<IEnumerable<DicomDataset>> QueryAsync(DicomCFindRequest request)
         {
             var datasets = new List<DicomDataset>();
