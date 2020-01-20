@@ -2,7 +2,9 @@
 {
     class Settings
     {
-        public ServerSettings Server { get; set; }
+        public ServerSettings QrServer { get; set; }
+
+        public ServerSettings StoreServer { get; set; }
 
         public ClientSettings Client { get; set; }
 

@@ -1,6 +1,7 @@
 ﻿using Dicom;
 using DicomScu;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Win32;
 using PacsExplorer.Converters;
 using System;
 using System.Diagnostics;
@@ -45,15 +46,16 @@ namespace PacsExplorer
         }
 
         DicomQrClient m_DicomQrClient;
+        DicomStoreClient m_DicomStoreClient;
 
-        private async void Find(object sender, RoutedEventArgs e)
+        private async void FindStudies(object sender, RoutedEventArgs e)
         {
             var button = (Button)sender;
             button.Focus();
 
             if (m_DicomQrClient == null)
             {
-                m_DicomQrClient = new DicomQrClient(m_Settings.Server.Host, m_Settings.Server.Port, m_Settings.Server.AeTitle, m_Settings.Client.AeTitle);
+                m_DicomQrClient = new DicomQrClient(m_Settings.QrServer.Host, m_Settings.QrServer.Port, m_Settings.QrServer.AeTitle, m_Settings.Client.AeTitle);
             }
 
             await DoWork(async () =>
@@ -62,6 +64,24 @@ namespace PacsExplorer
                 var datasets = await m_DicomQrClient.QueryAsync(request);
                 Studies.ItemsSource = datasets.Select(dataset => new DicomStudy(dataset)).OrderByDescending(study => study.Date);
             });
+        }
+
+        private async void UploadFiles(object sender, RoutedEventArgs e)
+        {
+            var dialog = new OpenFileDialog();
+            dialog.Multiselect = true;
+            if (dialog.ShowDialog() == true)
+            {
+                if (m_DicomStoreClient == null)
+                {
+                    m_DicomStoreClient = new DicomStoreClient(m_Settings.StoreServer.Host, m_Settings.StoreServer.Port, m_Settings.StoreServer.AeTitle, m_Settings.Client.AeTitle);
+                }
+
+                await DoWork(async () =>
+                {
+                    await m_DicomStoreClient.StoreAsync(dialog.FileNames.Select(filePath => DicomFile.Open(filePath)));
+                }, true);
+            }
         }
 
         private async void OpenStudy(object sender, RoutedEventArgs e)
@@ -87,11 +107,15 @@ namespace PacsExplorer
             });
         }
 
-        private async Task DoWork(Func<Task> action)
+        private async Task DoWork(Func<Task> action, bool indeterminateProgress = false)
         {
             try
             {
                 IsEnabled = false;
+                if (indeterminateProgress)
+                {
+                    RetrievingProgress.IsIndeterminate = true;
+                }
                 await action();
             }
             catch (Exception ex)
@@ -101,6 +125,10 @@ namespace PacsExplorer
             finally
             {
                 IsEnabled = true;
+                if (indeterminateProgress)
+                {
+                    RetrievingProgress.IsIndeterminate = false;
+                }
             }
         }
 
