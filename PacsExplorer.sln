@@ -5,7 +5,9 @@ VisualStudioVersion = 16.0.29613.14
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PacsExplorer", "PacsExplorer\PacsExplorer.csproj", "{9653430D-54E0-4DDA-8AC3-24848C0B832F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DicomScu", "DicomScu\DicomScu.csproj", "{CFCD6D6E-414A-4565-9A95-98C7F728A894}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DicomScu", "DicomScu\DicomScu.csproj", "{CFCD6D6E-414A-4565-9A95-98C7F728A894}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PacsGateway", "PacsGateway\PacsGateway.csproj", "{B322DD09-D233-446F-8DE0-2286E4B8146D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{CFCD6D6E-414A-4565-9A95-98C7F728A894}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CFCD6D6E-414A-4565-9A95-98C7F728A894}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CFCD6D6E-414A-4565-9A95-98C7F728A894}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B322DD09-D233-446F-8DE0-2286E4B8146D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B322DD09-D233-446F-8DE0-2286E4B8146D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B322DD09-D233-446F-8DE0-2286E4B8146D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B322DD09-D233-446F-8DE0-2286E4B8146D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
