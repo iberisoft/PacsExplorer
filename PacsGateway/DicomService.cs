@@ -3,7 +3,6 @@ using DicomScu;
 using Microsoft.Extensions.Configuration;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace PacsGateway
@@ -23,7 +22,7 @@ namespace PacsGateway
         {
             var request = DicomQrClient.CreateSeriesQueryRequest(id, null);
             var series = await m_DicomQrClient.QueryAsync(request);
-            return series.Count();
+            return series.Count;
         }
 
         public async Task OpenStudy(string id, bool move)

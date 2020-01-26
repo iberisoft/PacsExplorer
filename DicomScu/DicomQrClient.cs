@@ -28,7 +28,7 @@ namespace DicomScu
             return request;
         }
 
-        public async Task<IEnumerable<DicomDataset>> QueryAsync(DicomCFindRequest request)
+        public async Task<List<DicomDataset>> QueryAsync(DicomCFindRequest request)
         {
             var datasets = new List<DicomDataset>();
             request.OnResponseReceived += (_, response) =>
