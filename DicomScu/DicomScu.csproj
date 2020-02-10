@@ -2,6 +2,12 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <Authors>Pavel Zaytsev</Authors>
+    <Description>DICOM SCU library</Description>
+    <Copyright>Copyright © 2020</Copyright>
+    <PackageTags>dicom net-core</PackageTags>
+    <RepositoryUrl>https://github.com/iberisoft/PacsExplorer</RepositoryUrl>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <ItemGroup>
