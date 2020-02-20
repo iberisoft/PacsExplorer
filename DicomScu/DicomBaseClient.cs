@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Dicom.Network;
+using System;
+using System.Threading.Tasks;
 using DicomClient = Dicom.Network.Client.DicomClient;
 
 namespace DicomScu
@@ -16,5 +18,13 @@ namespace DicomScu
         }
 
         protected Func<DicomClient> CreateClient { get; }
+
+        public async Task VerifyAsync()
+        {
+            var client = CreateClient();
+            var request = new DicomCEchoRequest();
+            await client.AddRequestAsync(request);
+            await client.SendAsync();
+        }
     }
 }

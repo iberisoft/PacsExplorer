@@ -10,6 +10,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 
 namespace PacsExplorer
@@ -48,16 +49,56 @@ namespace PacsExplorer
         DicomQrClient m_DicomQrClient;
         DicomStoreClient m_DicomStoreClient;
 
+        private void CreateDicomQrClient()
+        {
+            m_DicomQrClient ??= new DicomQrClient(m_Settings.QrServer.Host, m_Settings.QrServer.Port, m_Settings.QrServer.AeTitle, m_Settings.Client.AeTitle);
+        }
+
+        private void CreateDicomStoreClient()
+        {
+            m_DicomStoreClient ??= new DicomStoreClient(m_Settings.StoreServer.Host, m_Settings.StoreServer.Port, m_Settings.StoreServer.AeTitle, m_Settings.Client.AeTitle);
+        }
+
+        private void OpenVerifyMenu(object sender, RoutedEventArgs e)
+        {
+            var menu = (ContextMenu)FindResource("VerifyMenu");
+            menu.PlacementTarget = (Button)sender;
+            menu.Placement = PlacementMode.Bottom;
+            menu.IsOpen = true;
+        }
+
+        private async void VerifyQrServer(object sender, RoutedEventArgs e)
+        {
+            CreateDicomQrClient();
+            var success = await DoWork(async () =>
+            {
+                await m_DicomQrClient.VerifyAsync();
+            }, true);
+            if (success)
+            {
+                MessageBox.Show("The server is running.", Title, MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+        }
+
+        private async void VerifyStoreServer(object sender, RoutedEventArgs e)
+        {
+            CreateDicomStoreClient();
+            var success = await DoWork(async () =>
+            {
+                await m_DicomStoreClient.VerifyAsync();
+            }, true);
+            if (success)
+            {
+                MessageBox.Show("The server is running.", Title, MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+        }
+
         private async void FindStudies(object sender, RoutedEventArgs e)
         {
             var button = (Button)sender;
             button.Focus();
 
-            if (m_DicomQrClient == null)
-            {
-                m_DicomQrClient = new DicomQrClient(m_Settings.QrServer.Host, m_Settings.QrServer.Port, m_Settings.QrServer.AeTitle, m_Settings.Client.AeTitle);
-            }
-
+            CreateDicomQrClient();
             await DoWork(async () =>
             {
                 var request = DicomQrClient.CreateStudyQueryRequest(StudyQuery);
@@ -72,11 +113,7 @@ namespace PacsExplorer
             dialog.Multiselect = true;
             if (dialog.ShowDialog() == true)
             {
-                if (m_DicomStoreClient == null)
-                {
-                    m_DicomStoreClient = new DicomStoreClient(m_Settings.StoreServer.Host, m_Settings.StoreServer.Port, m_Settings.StoreServer.AeTitle, m_Settings.Client.AeTitle);
-                }
-
+                CreateDicomStoreClient();
                 await DoWork(async () =>
                 {
                     await m_DicomStoreClient.StoreAsync(dialog.FileNames.Select(filePath => DicomFile.Open(filePath)));
@@ -107,7 +144,7 @@ namespace PacsExplorer
             });
         }
 
-        private async Task DoWork(Func<Task> action, bool indeterminateProgress = false)
+        private async Task<bool> DoWork(Func<Task> action, bool indeterminateProgress = false)
         {
             try
             {
@@ -117,10 +154,12 @@ namespace PacsExplorer
                     RetrievingProgress.IsIndeterminate = true;
                 }
                 await action();
+                return true;
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, Title, MessageBoxButton.OK, MessageBoxImage.Error);
+                return false;
             }
             finally
             {
