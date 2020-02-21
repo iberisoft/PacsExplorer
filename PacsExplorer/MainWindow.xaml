@@ -10,10 +10,10 @@
     </Window.Resources>
     <DockPanel>
         <StackPanel DockPanel.Dock="Left" MinWidth="200" DataContext="{Binding Path=StudyQuery}">
-            <TextBlock Text="Patient Name:" />
-            <TextBox Text="{Binding Path=PatientName}" />
-            <TextBlock Text="Patient ID:" />
-            <TextBox Text="{Binding Path=PatientId}" />
+            <TextBlock Text="Component Name:" />
+            <TextBox Text="{Binding Path=ComponentName}" />
+            <TextBlock Text="Component ID:" />
+            <TextBox Text="{Binding Path=ComponentId}" />
             <TextBlock Text="Accession #:" />
             <TextBox Text="{Binding Path=AccessionNumber}" />
             <TextBlock Text="Modality:" />

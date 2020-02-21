@@ -6,9 +6,9 @@ namespace PacsExplorer
 {
     public class DicomStudyQuery : IDicomQuery
     {
-        public string PatientName { get; set; } = "";
+        public string ComponentName { get; set; } = "";
 
-        public string PatientId { get; set; } = "";
+        public string ComponentId { get; set; } = "";
 
         public string AccessionNumber { get; set; } = "";
 
@@ -22,8 +22,8 @@ namespace PacsExplorer
 
         public void CopyTo(DicomDataset dataset)
         {
-            dataset.AddOrUpdate(DicomTag.PatientName, PatientName);
-            dataset.AddOrUpdate(DicomTag.PatientID, PatientId);
+            dataset.AddOrUpdate(DicomTag.PatientName, ComponentName);
+            dataset.AddOrUpdate(DicomTag.PatientID, ComponentId);
             dataset.AddOrUpdate(DicomTag.AccessionNumber, AccessionNumber);
             dataset.AddOrUpdate(DicomTag.ModalitiesInStudy, Modality);
             dataset.AddOrUpdate(DicomTag.StudyDate, new DicomDateRange(StartDate, EndDate));

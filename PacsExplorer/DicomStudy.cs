@@ -7,8 +7,8 @@ namespace PacsExplorer
     {
         public DicomStudy(DicomDataset dataset)
         {
-            PatientName = dataset.GetSingleValueOrDefault(DicomTag.PatientName, "");
-            PatientId = dataset.GetSingleValueOrDefault(DicomTag.PatientID, "");
+            ComponentName = dataset.GetSingleValueOrDefault(DicomTag.PatientName, "");
+            ComponentId = dataset.GetSingleValueOrDefault(DicomTag.PatientID, "");
             AccessionNumber = dataset.GetSingleValueOrDefault(DicomTag.AccessionNumber, "");
             Modality = dataset.GetSingleValueOrDefault(DicomTag.ModalitiesInStudy, "");
             if (dataset.TryGetSingleValue(DicomTag.StudyDate, out DateTime date))
@@ -23,9 +23,9 @@ namespace PacsExplorer
             }
         }
 
-        public string PatientName { get; }
+        public string ComponentName { get; }
 
-        public string PatientId { get; }
+        public string ComponentId { get; }
 
         public string AccessionNumber { get; }
 
