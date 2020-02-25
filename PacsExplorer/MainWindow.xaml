@@ -39,8 +39,6 @@
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="2*" />
                 <ColumnDefinition Width="2*" />
             </Grid.ColumnDefinitions>
             <Button Grid.Column="0" Content="Upload" Click="UploadFiles" />
@@ -48,9 +46,7 @@
                     Click="OpenStudy" />
             <RadioButton Name="CGetOption" Grid.Column="2" VerticalAlignment="Center" Content="C-GET" IsChecked="True" />
             <RadioButton Grid.Column="3" VerticalAlignment="Center" Content="C-MOVE" />
-            <TextBlock Grid.Column="4" VerticalAlignment="Center" Text="Store To:" />
-            <TextBox Grid.Column="5" Text="{Binding Path=StoragePath}" />
-            <ProgressBar Name="RetrievingProgress" Grid.Column="6" />
+            <ProgressBar Name="RetrievingProgress" Grid.Column="4" />
         </Grid>
         <DataGrid Name="Studies" SelectionMode="Single" AutoGeneratingColumn="Studies_AutoGeneratingColumn" />
     </DockPanel>
