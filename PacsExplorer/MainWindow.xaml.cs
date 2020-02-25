@@ -29,12 +29,15 @@ namespace PacsExplorer
             var config = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
             m_Settings = config.Get<Settings>();
 
+            StoragePath = Path.Combine(Path.GetTempPath(), nameof(PacsExplorer));
+            Directory.CreateDirectory(StoragePath);
+
             DataContext = this;
         }
 
         public DicomStudyQuery StudyQuery { get; set; } = new DicomStudyQuery();
 
-        public string StoragePath { get; set; } = @"D:\PacsExplorer";
+        public string StoragePath { get; }
 
         private void Studies_AutoGeneratingColumn(object sender, DataGridAutoGeneratingColumnEventArgs e)
         {
@@ -175,38 +178,25 @@ namespace PacsExplorer
         {
             Dispatcher.Invoke(() => ++RetrievingProgress.Value);
 
-            if (Directory.Exists(StoragePath))
-            {
-                var file = new DicomFile(dataset);
-                var filePath = Path.Combine(StoragePath, dataset.GetString(DicomTag.StudyInstanceUID), dataset.GetString(DicomTag.SOPInstanceUID) + ".dcm");
-                Directory.CreateDirectory(Path.GetDirectoryName(filePath));
-                await file.SaveAsync(filePath);
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            var file = new DicomFile(dataset);
+            var filePath = Path.Combine(StoragePath, dataset.GetString(DicomTag.StudyInstanceUID), dataset.GetString(DicomTag.SOPInstanceUID) + ".dcm");
+            Directory.CreateDirectory(Path.GetDirectoryName(filePath));
+            await file.SaveAsync(filePath);
+            return true;
         }
 
         private void OpenFolder(DicomStudy study)
         {
-            if (Directory.Exists(StoragePath))
-            {
-                var folderPath = Path.Combine(StoragePath, study.Uid);
-                Process.Start(File.Exists(m_Settings.ImageViewerPath) ? m_Settings.ImageViewerPath : "explorer", folderPath);
-            }
+            var folderPath = Path.Combine(StoragePath, study.Uid);
+            Process.Start(File.Exists(m_Settings.ImageViewerPath) ? m_Settings.ImageViewerPath : "explorer", folderPath);
         }
 
         private void DeleteFolder(DicomStudy study)
         {
-            if (Directory.Exists(StoragePath))
+            var folderPath = Path.Combine(StoragePath, study.Uid);
+            if (Directory.Exists(folderPath))
             {
-                var folderPath = Path.Combine(StoragePath, study.Uid);
-                if (Directory.Exists(folderPath))
-                {
-                    Directory.Delete(folderPath, true);
-                }
+                Directory.Delete(folderPath, true);
             }
         }
     }
