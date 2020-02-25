@@ -4,6 +4,8 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <UseWPF>true</UseWPF>
+    <Copyright>Copyright © 2020</Copyright>
+    <Authors>Pavel Zaytsev</Authors>
   </PropertyGroup>
 
   <ItemGroup>
