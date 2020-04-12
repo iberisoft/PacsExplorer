@@ -121,6 +121,14 @@ namespace PacsExplorer
                 {
                     await m_DicomStoreClient.StoreAsync(dialog.FileNames.Select(filePath => DicomFile.Open(filePath)));
                 }, true);
+
+                CreateDicomQrClient();
+                await DoWork(async () =>
+                {
+                    var request = DicomQrClient.CreateStudyQueryRequest(StudyQuery);
+                    var datasets = await m_DicomQrClient.QueryAsync(request);
+                    Studies.ItemsSource = datasets.Select(dataset => new DicomStudy(dataset)).OrderByDescending(study => study.Date);
+                });
             }
         }
 
