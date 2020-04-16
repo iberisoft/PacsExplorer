@@ -187,7 +187,7 @@ namespace PacsExplorer
             Dispatcher.Invoke(() => ++RetrievingProgress.Value);
 
             var file = new DicomFile(dataset);
-            var filePath = Path.Combine(StoragePath, dataset.GetString(DicomTag.StudyInstanceUID), dataset.GetString(DicomTag.SOPInstanceUID) + ".dcm");
+            var filePath = Path.Combine(StoragePath, dataset.GetString(DicomTag.StudyInstanceUID), dataset.GetString(DicomTag.SeriesInstanceUID), dataset.GetString(DicomTag.SOPInstanceUID) + ".dcm");
             Directory.CreateDirectory(Path.GetDirectoryName(filePath));
             await file.SaveAsync(filePath);
             return true;
