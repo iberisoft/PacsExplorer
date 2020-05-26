@@ -1,6 +1,5 @@
 ﻿using Dicom;
 using DicomScu;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Win32;
 using PacsExplorer.Converters;
 using System;
@@ -20,14 +19,11 @@ namespace PacsExplorer
     /// </summary>
     public partial class MainWindow : Window
     {
-        readonly Settings m_Settings;
+        readonly Properties.Settings m_Settings = Properties.Settings.Default;
 
         public MainWindow()
         {
             InitializeComponent();
-
-            var config = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
-            m_Settings = config.Get<Settings>();
 
             StoragePath = Path.Combine(Path.GetTempPath(), nameof(PacsExplorer));
             Directory.CreateDirectory(StoragePath);
@@ -54,12 +50,18 @@ namespace PacsExplorer
 
         private void CreateDicomQrClient()
         {
-            m_DicomQrClient ??= new DicomQrClient(m_Settings.QrServer.Host, m_Settings.QrServer.Port, m_Settings.QrServer.AeTitle, m_Settings.Client.AeTitle);
+            if (m_DicomQrClient == null)
+            {
+                m_DicomQrClient = new DicomQrClient(m_Settings.ServerHost, m_Settings.QrServerPort, m_Settings.QrServerAeTitle, m_Settings.ClientAeTitle);
+            }
         }
 
         private void CreateDicomStoreClient()
         {
-            m_DicomStoreClient ??= new DicomStoreClient(m_Settings.StoreServer.Host, m_Settings.StoreServer.Port, m_Settings.StoreServer.AeTitle, m_Settings.Client.AeTitle);
+            if (m_DicomStoreClient == null)
+            {
+                m_DicomStoreClient = new DicomStoreClient(m_Settings.ServerHost, m_Settings.StoreServerPort, m_Settings.StoreServerAeTitle, m_Settings.ClientAeTitle);
+            }
         }
 
         private void OpenVerifyMenu(object sender, RoutedEventArgs e)
@@ -148,8 +150,8 @@ namespace PacsExplorer
                 }
                 else
                 {
-                    var request = DicomQrClient.CreateStudyMoveRequest(study.Uid, m_Settings.Client.AeTitle);
-                    await m_DicomQrClient.RetrieveAsync(request, Save, m_Settings.Client.Port);
+                    var request = DicomQrClient.CreateStudyMoveRequest(study.Uid, m_Settings.ClientAeTitle);
+                    await m_DicomQrClient.RetrieveAsync(request, Save, m_Settings.ClientPort);
                 }
                 OpenFolder(study);
             });
