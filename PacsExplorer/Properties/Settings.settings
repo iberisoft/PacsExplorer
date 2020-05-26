@@ -1,0 +1,30 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="PacsExplorer.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="ServerHost" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">localhost</Value>
+    </Setting>
+    <Setting Name="QrServerAeTitle" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">SERVER</Value>
+    </Setting>
+    <Setting Name="QrServerPort" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">106</Value>
+    </Setting>
+    <Setting Name="StoreServerAeTitle" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">SERVER</Value>
+    </Setting>
+    <Setting Name="StoreServerPort" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">104</Value>
+    </Setting>
+    <Setting Name="ClientAeTitle" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">CLIENT</Value>
+    </Setting>
+    <Setting Name="ClientPort" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">1000</Value>
+    </Setting>
+    <Setting Name="ImageViewerPath" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">C:\Program Files\RadiAntViewer64bit\RadiAntViewer.exe</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>
