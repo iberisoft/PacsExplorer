@@ -48,6 +48,12 @@
             <RadioButton Grid.Column="3" VerticalAlignment="Center" Content="C-MOVE" />
             <ProgressBar Name="RetrievingProgress" Grid.Column="4" />
         </Grid>
-        <DataGrid Name="Studies" SelectionMode="Single" AutoGeneratingColumn="Studies_AutoGeneratingColumn" />
+        <DataGrid Name="Studies" SelectionMode="Single" AutoGeneratingColumn="Studies_AutoGeneratingColumn">
+            <DataGrid.Resources>
+                <Style TargetType="DataGridRow">
+                    <EventSetter Event="MouseDoubleClick" Handler="Studies_MouseDoubleClick" />
+                </Style>
+            </DataGrid.Resources>
+        </DataGrid>
     </DockPanel>
 </Window>
