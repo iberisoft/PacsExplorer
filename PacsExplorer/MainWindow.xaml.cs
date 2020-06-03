@@ -11,6 +11,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Data;
+using System.Windows.Input;
 
 namespace PacsExplorer
 {
@@ -136,6 +137,11 @@ namespace PacsExplorer
 
         private async void OpenStudy(object sender, RoutedEventArgs e)
         {
+            await OpenStudy();
+        }
+
+        private async Task OpenStudy()
+        {
             var study = (DicomStudy)Studies.SelectedItem;
             RetrievingProgress.Value = 0;
             RetrievingProgress.Maximum = study.ImageCount ?? 0;
@@ -208,6 +214,13 @@ namespace PacsExplorer
             {
                 Directory.Delete(folderPath, true);
             }
+        }
+
+        private async void Studies_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            var row = (DataGridRow)sender;
+            Studies.SelectedItem = row.DataContext;
+            await OpenStudy();
         }
     }
 }
