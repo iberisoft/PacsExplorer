@@ -9,6 +9,7 @@
         </Style>
         <Style TargetType="RadioButton">
             <Setter Property="Margin" Value="3" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
         </Style>
         <Style TargetType="TextBlock">
             <Setter Property="Margin" Value="3" />
