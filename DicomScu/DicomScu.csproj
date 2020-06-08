@@ -8,6 +8,7 @@
     <PackageTags>dicom net-core</PackageTags>
     <RepositoryUrl>https://github.com/iberisoft/PacsExplorer</RepositoryUrl>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Version>1.1.0</Version>
   </PropertyGroup>
 
   <ItemGroup>

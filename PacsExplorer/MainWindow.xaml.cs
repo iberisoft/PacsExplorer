@@ -3,6 +3,7 @@ using DicomScu;
 using Microsoft.Win32;
 using PacsExplorer.Converters;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -119,20 +120,37 @@ namespace PacsExplorer
             dialog.Multiselect = true;
             if (dialog.ShowDialog() == true)
             {
-                CreateDicomStoreClient();
-                await DoWork(async () =>
-                {
-                    await m_DicomStoreClient.StoreAsync(dialog.FileNames.Select(filePath => DicomFile.Open(filePath)));
-                }, true);
-
-                CreateDicomQrClient();
-                await DoWork(async () =>
-                {
-                    var request = DicomQrClient.CreateStudyQueryRequest(StudyQuery);
-                    var datasets = await m_DicomQrClient.QueryAsync(request);
-                    Studies.ItemsSource = datasets.Select(dataset => new DicomStudy(dataset)).OrderByDescending(study => study.Date);
-                });
+                await UploadFiles(dialog.FileNames.Select(filePath => DicomFile.Open(filePath)));
             }
+        }
+
+        private async void UploadPdfFiles(object sender, RoutedEventArgs e)
+        {
+            var dialog = new OpenFileDialog();
+            dialog.Multiselect = true;
+            dialog.Filter = "*.pdf|*.pdf";
+            if (dialog.ShowDialog() == true)
+            {
+                var study = (DicomStudy)Studies.SelectedItem;
+                await UploadFiles(dialog.FileNames.Select(filePath => study.CreateEncapsulatedPdf(filePath)));
+            }
+        }
+
+        private async Task UploadFiles(IEnumerable<DicomFile> files)
+        {
+            CreateDicomStoreClient();
+            await DoWork(async () =>
+            {
+                await m_DicomStoreClient.StoreAsync(files);
+            }, true);
+
+            CreateDicomQrClient();
+            await DoWork(async () =>
+            {
+                var request = DicomQrClient.CreateStudyQueryRequest(StudyQuery);
+                var datasets = await m_DicomQrClient.QueryAsync(request);
+                Studies.ItemsSource = datasets.Select(dataset => new DicomStudy(dataset)).OrderByDescending(study => study.Date);
+            });
         }
 
         private async void OpenStudy(object sender, RoutedEventArgs e)

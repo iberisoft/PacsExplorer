@@ -1,5 +1,6 @@
 ﻿using Dicom;
 using System;
+using System.IO;
 
 namespace PacsExplorer
 {
@@ -21,6 +22,33 @@ namespace PacsExplorer
             {
                 ImageCount = imageCount;
             }
+        }
+
+        public DicomFile CreateEncapsulatedPdf(string filePath)
+        {
+            var dataset = new DicomDataset();
+
+            dataset.AddOrUpdate(DicomTag.PatientName, ComponentName);
+            dataset.AddOrUpdate(DicomTag.PatientID, ComponentId);
+            dataset.AddOrUpdate(DicomTag.AccessionNumber, AccessionNumber);
+            if (Date != null)
+            {
+                dataset.AddOrUpdate(DicomTag.StudyDate, Date.Value);
+            }
+            dataset.AddOrUpdate(DicomTag.StudyDescription, Description);
+            dataset.AddOrUpdate(DicomTag.StudyInstanceUID, Uid);
+
+            dataset.AddOrUpdate(DicomTag.Modality, "DOC");
+            dataset.AddOrUpdate(DicomTag.ConversionType, "WSD");
+            dataset.AddOrUpdate(DicomTag.SeriesInstanceUID, DicomUID.Generate());
+            dataset.AddOrUpdate(DicomTag.SOPClassUID, DicomUID.EncapsulatedPDFStorage);
+            dataset.AddOrUpdate(DicomTag.SOPInstanceUID, DicomUID.Generate());
+
+            dataset.AddOrUpdate(DicomTag.DocumentTitle, Path.GetFileNameWithoutExtension(filePath));
+            dataset.AddOrUpdate(DicomTag.MIMETypeOfEncapsulatedDocument, "application/pdf");
+            dataset.AddOrUpdate(DicomTag.EncapsulatedDocument, File.ReadAllBytes(filePath));
+
+            return new DicomFile(dataset);
         }
 
         public string ComponentName { get; }

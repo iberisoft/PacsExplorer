@@ -37,16 +37,17 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="2*" />
             </Grid.ColumnDefinitions>
             <Button Grid.Column="0" Content="Upload" Click="UploadFiles" />
-            <Button Grid.Column="1" Content="Open" IsEnabled="{Binding ElementName=Studies, Path=SelectedItem, Converter={StaticResource NotNullToBooleanConverter}}"
-                    Click="OpenStudy" />
-            <RadioButton Name="CGetOption" Grid.Column="2" VerticalAlignment="Center" Content="C-GET" IsChecked="True" />
-            <RadioButton Grid.Column="3" VerticalAlignment="Center" Content="C-MOVE" />
-            <ProgressBar Name="RetrievingProgress" Grid.Column="4" />
+            <Button Grid.Column="1" Content="Upload PDF" IsEnabled="{Binding ElementName=Studies, Path=SelectedItem, Converter={StaticResource NotNullToBooleanConverter}}" Click="UploadPdfFiles" />
+            <Button Grid.Column="2" Content="Open" IsEnabled="{Binding ElementName=Studies, Path=SelectedItem, Converter={StaticResource NotNullToBooleanConverter}}" Click="OpenStudy" />
+            <RadioButton Name="CGetOption" Grid.Column="3" VerticalAlignment="Center" Content="C-GET" IsChecked="True" />
+            <RadioButton Grid.Column="4" VerticalAlignment="Center" Content="C-MOVE" />
+            <ProgressBar Name="RetrievingProgress" Grid.Column="5" />
         </Grid>
         <DataGrid Name="Studies" SelectionMode="Single" AutoGeneratingColumn="Studies_AutoGeneratingColumn">
             <DataGrid.Resources>
