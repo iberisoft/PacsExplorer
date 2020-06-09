@@ -1,0 +1,72 @@
+﻿<Window x:Class="PacsExplorer.ConfigWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Configuration" SizeToContent="Height" Width="400" ResizeMode="NoResize" WindowStartupLocation="CenterOwner" ShowInTaskbar="False" Closed="Window_Closed">
+    <DockPanel>
+        <UniformGrid DockPanel.Dock="Bottom" Rows="1">
+            <Button IsDefault="True" Content="OK" Click="Submit" />
+            <Button IsCancel="True" Content="Cancel" />
+        </UniformGrid>
+        <Grid DataContext="{StaticResource Settings}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <GroupBox Grid.Row="0" Grid.Column="0" Header="Query/Retrieve Server">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Row="0" Grid.Column="0" Content="Host:" />
+                    <TextBox Name="ServerHost" Grid.Row="0" Grid.Column="1" Text="{Binding Path=ServerHost, UpdateSourceTrigger=Explicit}" />
+                    <Label Grid.Row="1" Grid.Column="0" Content="AE Title:" />
+                    <TextBox Name="QrServerAeTitle" Grid.Row="1" Grid.Column="1" Text="{Binding Path=QrServerAeTitle, UpdateSourceTrigger=Explicit}" />
+                    <Label Grid.Row="2" Grid.Column="0" Content="Port:" />
+                    <TextBox Name="QrServerPort" Grid.Row="2" Grid.Column="1" Text="{Binding Path=QrServerPort, UpdateSourceTrigger=Explicit}" />
+                </Grid>
+            </GroupBox>
+            <GroupBox Grid.Row="0" Grid.Column="1" Header="Store Server">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Row="0" Grid.Column="0" Content="AE Title:" />
+                    <TextBox Name="StoreServerAeTitle" Grid.Row="0" Grid.Column="1" Text="{Binding Path=StoreServerAeTitle, UpdateSourceTrigger=Explicit}" />
+                    <Label Grid.Row="1" Grid.Column="0" Content="Port:" />
+                    <TextBox Name="StoreServerPort" Grid.Row="1" Grid.Column="1" Text="{Binding Path=StoreServerPort, UpdateSourceTrigger=Explicit}" />
+                </Grid>
+            </GroupBox>
+            <GroupBox Grid.Row="1" Grid.Column="0" Header="Client">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Row="0" Grid.Column="0" Content="AE Title:" />
+                    <TextBox Name="ClientAeTitle" Grid.Row="0" Grid.Column="1" Text="{Binding Path=ClientAeTitle, UpdateSourceTrigger=Explicit}" />
+                    <Label Grid.Row="1" Grid.Column="0" Content="Port:" />
+                    <TextBox Name="ClientPort" Grid.Row="1" Grid.Column="1" Text="{Binding Path=ClientPort, UpdateSourceTrigger=Explicit}" />
+                </Grid>
+            </GroupBox>
+        </Grid>
+    </DockPanel>
+</Window>

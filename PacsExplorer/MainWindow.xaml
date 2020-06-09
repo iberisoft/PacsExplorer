@@ -32,6 +32,7 @@
             <TextBox Text="{Binding Path=Description}" />
             <Button Content="Find" IsDefault="True" Click="FindStudies" />
             <Button Content="Verify" Click="OpenVerifyMenu" />
+            <Button Content="Configuration" Click="Configure" />
         </StackPanel>
         <Grid DockPanel.Dock="Top">
             <Grid.ColumnDefinitions>
