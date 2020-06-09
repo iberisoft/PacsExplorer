@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
+using Xceed.Wpf.Toolkit;
 
 namespace PacsExplorer
 {
@@ -25,11 +26,11 @@ namespace PacsExplorer
             {
                 ServerHost.GetBindingExpression(TextBox.TextProperty).UpdateSource();
                 QrServerAeTitle.GetBindingExpression(TextBox.TextProperty).UpdateSource();
-                QrServerPort.GetBindingExpression(TextBox.TextProperty).UpdateSource();
+                QrServerPort.GetBindingExpression(IntegerUpDown.ValueProperty).UpdateSource();
                 StoreServerAeTitle.GetBindingExpression(TextBox.TextProperty).UpdateSource();
-                StoreServerPort.GetBindingExpression(TextBox.TextProperty).UpdateSource();
+                StoreServerPort.GetBindingExpression(IntegerUpDown.ValueProperty).UpdateSource();
                 ClientAeTitle.GetBindingExpression(TextBox.TextProperty).UpdateSource();
-                ClientPort.GetBindingExpression(TextBox.TextProperty).UpdateSource();
+                ClientPort.GetBindingExpression(IntegerUpDown.ValueProperty).UpdateSource();
             }
         }
     }
