@@ -23,66 +23,87 @@ namespace PacsExplorer.Properties {
             }
         }
         
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("localhost")]
         public string ServerHost {
             get {
                 return ((string)(this["ServerHost"]));
             }
+            set {
+                this["ServerHost"] = value;
+            }
         }
         
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("SERVER")]
         public string QrServerAeTitle {
             get {
                 return ((string)(this["QrServerAeTitle"]));
             }
+            set {
+                this["QrServerAeTitle"] = value;
+            }
         }
         
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("106")]
         public int QrServerPort {
             get {
                 return ((int)(this["QrServerPort"]));
             }
+            set {
+                this["QrServerPort"] = value;
+            }
         }
         
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("SERVER")]
         public string StoreServerAeTitle {
             get {
                 return ((string)(this["StoreServerAeTitle"]));
             }
+            set {
+                this["StoreServerAeTitle"] = value;
+            }
         }
         
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("104")]
         public int StoreServerPort {
             get {
                 return ((int)(this["StoreServerPort"]));
             }
+            set {
+                this["StoreServerPort"] = value;
+            }
         }
         
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("CLIENT")]
         public string ClientAeTitle {
             get {
                 return ((string)(this["ClientAeTitle"]));
             }
+            set {
+                this["ClientAeTitle"] = value;
+            }
         }
         
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("1000")]
         public int ClientPort {
             get {
                 return ((int)(this["ClientPort"]));
+            }
+            set {
+                this["ClientPort"] = value;
             }
         }
         

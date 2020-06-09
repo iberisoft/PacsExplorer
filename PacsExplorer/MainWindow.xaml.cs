@@ -240,5 +240,12 @@ namespace PacsExplorer
             Studies.SelectedItem = row.DataContext;
             await OpenStudy();
         }
+
+        private void Configure(object sender, RoutedEventArgs e)
+        {
+            var window = new ConfigWindow();
+            window.Owner = this;
+            window.ShowDialog();
+        }
     }
 }
