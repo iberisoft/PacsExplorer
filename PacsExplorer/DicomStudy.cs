@@ -18,9 +18,9 @@ namespace PacsExplorer
             }
             Description = dataset.GetSingleValueOrDefault(DicomTag.StudyDescription, "");
             Uid = dataset.GetSingleValueOrDefault(DicomTag.StudyInstanceUID, "");
-            if (dataset.TryGetSingleValue(DicomTag.NumberOfStudyRelatedInstances, out int imageCount))
+            if (dataset.TryGetSingleValue(DicomTag.NumberOfStudyRelatedInstances, out int instanceCount))
             {
-                ImageCount = imageCount;
+                InstanceCount = instanceCount;
             }
         }
 
@@ -65,6 +65,6 @@ namespace PacsExplorer
 
         public string Uid { get; }
 
-        public int? ImageCount { get; set; }
+        public int? InstanceCount { get; set; }
     }
 }
