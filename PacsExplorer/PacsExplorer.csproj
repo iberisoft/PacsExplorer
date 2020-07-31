@@ -88,7 +88,9 @@
     </Compile>
     <Compile Include="Converters\DateConverter.cs" />
     <Compile Include="Converters\NotNullToBooleanConverter.cs" />
+    <Compile Include="DicomSeries.cs" />
     <Compile Include="DicomStudy.cs" />
+    <Compile Include="DicomSeriesQuery.cs" />
     <Compile Include="DicomStudyQuery.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
