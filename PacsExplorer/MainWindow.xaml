@@ -39,23 +39,38 @@
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="2*" />
             </Grid.ColumnDefinitions>
             <Button Grid.Column="0" Content="Upload" Click="UploadFiles" />
             <Button Grid.Column="1" Content="Upload PDF" IsEnabled="{Binding ElementName=Studies, Path=SelectedItem, Converter={StaticResource NotNullToBooleanConverter}}" Click="UploadPdfFiles" />
-            <Button Grid.Column="2" Content="Open" IsEnabled="{Binding ElementName=Studies, Path=SelectedItem, Converter={StaticResource NotNullToBooleanConverter}}" Click="OpenStudy" />
-            <RadioButton Name="CGetOption" Grid.Column="3" VerticalAlignment="Center" Content="C-GET" IsChecked="True" />
-            <RadioButton Grid.Column="4" VerticalAlignment="Center" Content="C-MOVE" />
-            <ProgressBar Name="RetrievingProgress" Grid.Column="5" />
+            <Button Grid.Column="2" Content="Open Study" IsEnabled="{Binding ElementName=Studies, Path=SelectedItem, Converter={StaticResource NotNullToBooleanConverter}}" Click="OpenStudy" />
+            <Button Grid.Column="3" Content="Open Series" IsEnabled="{Binding ElementName=Series, Path=SelectedItem, Converter={StaticResource NotNullToBooleanConverter}}" Click="OpenSeries" />
+            <RadioButton Name="CGetOption" Grid.Column="4" VerticalAlignment="Center" Content="C-GET" IsChecked="True" />
+            <RadioButton Grid.Column="5" VerticalAlignment="Center" Content="C-MOVE" />
+            <ProgressBar Name="RetrievingProgress" Grid.Column="6" />
         </Grid>
-        <DataGrid Name="Studies" SelectionMode="Single" AutoGeneratingColumn="Studies_AutoGeneratingColumn">
-            <DataGrid.Resources>
-                <Style TargetType="DataGridRow">
-                    <EventSetter Event="MouseDoubleClick" Handler="Studies_MouseDoubleClick" />
-                </Style>
-            </DataGrid.Resources>
-        </DataGrid>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <DataGrid Name="Studies" Grid.Column="0" SelectionMode="Single" AutoGeneratingColumn="Studies_AutoGeneratingColumn" SelectionChanged="Studies_SelectionChanged">
+                <DataGrid.Resources>
+                    <Style TargetType="DataGridRow">
+                        <EventSetter Event="MouseDoubleClick" Handler="Studies_MouseDoubleClick" />
+                    </Style>
+                </DataGrid.Resources>
+            </DataGrid>
+            <DataGrid Name="Series" Grid.Column="1" SelectionMode="Single">
+                <DataGrid.Resources>
+                    <Style TargetType="DataGridRow">
+                        <EventSetter Event="MouseDoubleClick" Handler="Series_MouseDoubleClick" />
+                    </Style>
+                </DataGrid.Resources>
+            </DataGrid>
+        </Grid>
     </DockPanel>
 </Window>

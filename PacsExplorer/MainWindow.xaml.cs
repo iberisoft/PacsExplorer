@@ -35,6 +35,8 @@ namespace PacsExplorer
 
         public DicomStudyQuery StudyQuery { get; set; } = new DicomStudyQuery();
 
+        public DicomSeriesQuery SeriesQuery { get; set; } = new DicomSeriesQuery();
+
         public string StoragePath { get; }
 
         private void Studies_AutoGeneratingColumn(object sender, DataGridAutoGeneratingColumnEventArgs e)
@@ -114,6 +116,19 @@ namespace PacsExplorer
             });
         }
 
+        private async void Studies_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var study = (DicomStudy)Studies.SelectedItem;
+
+            CreateDicomQrClient();
+            await DoWork(async () =>
+            {
+                var request = DicomQrClient.CreateSeriesQueryRequest(study.Uid, SeriesQuery);
+                var datasets = await m_DicomQrClient.QueryAsync(request);
+                Series.ItemsSource = datasets.Select(dataset => new DicomSeries(dataset)).OrderBy(series => series.Number);
+            });
+        }
+
         private async void UploadFiles(object sender, RoutedEventArgs e)
         {
             var dialog = new OpenFileDialog();
@@ -162,7 +177,7 @@ namespace PacsExplorer
         {
             var study = (DicomStudy)Studies.SelectedItem;
             RetrievingProgress.Value = 0;
-            RetrievingProgress.Maximum = study.ImageCount ?? 0;
+            RetrievingProgress.Maximum = study.InstanceCount ?? 0;
 
             await DoWork(async () =>
             {
@@ -175,6 +190,35 @@ namespace PacsExplorer
                 else
                 {
                     var request = DicomQrClient.CreateStudyMoveRequest(study.Uid, m_Settings.ClientAeTitle);
+                    await m_DicomQrClient.RetrieveAsync(request, Save, m_Settings.ClientPort);
+                }
+                OpenFolder(study);
+            });
+        }
+
+        private async void OpenSeries(object sender, RoutedEventArgs e)
+        {
+            await OpenSeries();
+        }
+
+        private async Task OpenSeries()
+        {
+            var study = (DicomStudy)Studies.SelectedItem;
+            var series = (DicomSeries)Series.SelectedItem;
+            RetrievingProgress.Value = 0;
+            RetrievingProgress.Maximum = series.InstanceCount ?? 0;
+
+            await DoWork(async () =>
+            {
+                DeleteFolder(study);
+                if (CGetOption.IsChecked == true)
+                {
+                    var request = DicomQrClient.CreateSeriesGetRequest(study.Uid, series.Uid);
+                    await m_DicomQrClient.RetrieveAsync(request, Save);
+                }
+                else
+                {
+                    var request = DicomQrClient.CreateSeriesMoveRequest(study.Uid, series.Uid, m_Settings.ClientAeTitle);
                     await m_DicomQrClient.RetrieveAsync(request, Save, m_Settings.ClientPort);
                 }
                 OpenFolder(study);
@@ -239,6 +283,13 @@ namespace PacsExplorer
             var row = (DataGridRow)sender;
             Studies.SelectedItem = row.DataContext;
             await OpenStudy();
+        }
+
+        private async void Series_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            var row = (DataGridRow)sender;
+            Series.SelectedItem = row.DataContext;
+            await OpenSeries();
         }
 
         private void Configure(object sender, RoutedEventArgs e)
