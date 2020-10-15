@@ -296,7 +296,11 @@ namespace PacsExplorer
         {
             var window = new ConfigWindow();
             window.Owner = this;
-            window.ShowDialog();
+            if (window.ShowDialog() == true)
+            {
+                m_DicomQrClient = null;
+                m_DicomStoreClient = null;
+            }
         }
     }
 }
