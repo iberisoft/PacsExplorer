@@ -119,6 +119,10 @@ namespace PacsExplorer
         private async void Studies_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var study = (DicomStudy)Studies.SelectedItem;
+            if (study == null)
+            {
+                return;
+            }
 
             CreateDicomQrClient();
             await DoWork(async () =>
