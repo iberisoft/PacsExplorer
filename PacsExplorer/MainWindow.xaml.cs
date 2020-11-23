@@ -302,6 +302,7 @@ namespace PacsExplorer
             window.Owner = this;
             if (window.ShowDialog() == true)
             {
+                m_Settings.Save();
                 m_DicomQrClient = null;
                 m_DicomStoreClient = null;
             }
