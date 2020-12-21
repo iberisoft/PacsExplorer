@@ -135,8 +135,10 @@ namespace PacsExplorer
 
         private async void UploadFiles(object sender, RoutedEventArgs e)
         {
-            var dialog = new OpenFileDialog();
-            dialog.Multiselect = true;
+            var dialog = new OpenFileDialog
+            {
+                Multiselect = true
+            };
             if (dialog.ShowDialog() == true)
             {
                 await UploadFiles(dialog.FileNames.Select(filePath => DicomFile.Open(filePath)));
@@ -145,9 +147,11 @@ namespace PacsExplorer
 
         private async void UploadPdfFiles(object sender, RoutedEventArgs e)
         {
-            var dialog = new OpenFileDialog();
-            dialog.Multiselect = true;
-            dialog.Filter = "*.pdf|*.pdf";
+            var dialog = new OpenFileDialog
+            {
+                Multiselect = true,
+                Filter = "*.pdf|*.pdf"
+            };
             if (dialog.ShowDialog() == true)
             {
                 var study = (DicomStudy)Studies.SelectedItem;
@@ -298,8 +302,10 @@ namespace PacsExplorer
 
         private void Configure(object sender, RoutedEventArgs e)
         {
-            var window = new ConfigWindow();
-            window.Owner = this;
+            var window = new ConfigWindow
+            {
+                Owner = this
+            };
             if (window.ShowDialog() == true)
             {
                 m_Settings.Save();
