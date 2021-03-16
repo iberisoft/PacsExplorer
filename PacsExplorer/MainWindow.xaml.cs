@@ -121,6 +121,7 @@ namespace PacsExplorer
             var study = (DicomStudy)Studies.SelectedItem;
             if (study == null)
             {
+                Series.ItemsSource = null;
                 return;
             }
 
