@@ -24,7 +24,7 @@
       <Value Profile="(Default)">1000</Value>
     </Setting>
     <Setting Name="ImageViewerPath" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">C:\Program Files\RadiAntViewer64bit\RadiAntViewer.exe</Value>
+      <Value Profile="(Default)">C:\Program Files\MicroDicom\mDicom.exe</Value>
     </Setting>
   </Settings>
 </SettingsFile>
