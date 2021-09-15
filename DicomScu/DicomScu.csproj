@@ -13,7 +13,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="fo-dicom.NetCore" Version="4.0.7" />
+    <PackageReference Include="fo-dicom.NetCore" Version="4.0.8" />
   </ItemGroup>
 
   <ItemGroup>
