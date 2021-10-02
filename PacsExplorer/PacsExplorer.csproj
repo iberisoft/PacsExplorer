@@ -116,8 +116,8 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DicomScu\DicomScu.csproj">
-      <Project>{cfcd6d6e-414a-4565-9a95-98c7f728a894}</Project>
+    <ProjectReference Include="..\DicomScu\DicomScu\DicomScu.csproj">
+      <Project>{9a70ddb2-3d1c-4d2b-908e-894f5c005011}</Project>
       <Name>DicomScu</Name>
     </ProjectReference>
   </ItemGroup>

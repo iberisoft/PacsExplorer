@@ -9,6 +9,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+      with:
+        submodules: true
     - name: Setup Nuget.exe
       uses: NuGet/setup-nuget@v1.0.5
     - name: Restore packages
