@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DicomScu\DicomScu.csproj" />
+    <ProjectReference Include="..\DicomScu\DicomScu\DicomScu.csproj" />
   </ItemGroup>
 
 </Project>

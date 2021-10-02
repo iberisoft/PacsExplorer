@@ -11,7 +11,7 @@ namespace PacsExplorer
             ComponentName = dataset.GetSingleValueOrDefault(DicomTag.PatientName, "");
             ComponentId = dataset.GetSingleValueOrDefault(DicomTag.PatientID, "");
             AccessionNumber = dataset.GetSingleValueOrDefault(DicomTag.AccessionNumber, "");
-            Modality = dataset.GetString(DicomTag.ModalitiesInStudy);
+            Modality = dataset.GetSingleValueOrDefault(DicomTag.ModalitiesInStudy, "");
             if (dataset.TryGetSingleValue(DicomTag.StudyDate, out DateTime date))
             {
                 Date = date;

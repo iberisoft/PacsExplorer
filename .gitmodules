@@ -1,0 +1,3 @@
+[submodule "DicomScu"]
+	path = DicomScu
+	url = https://github.com/iberisoft/DicomScu.git

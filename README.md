@@ -1,6 +1,6 @@
 # PACS Explorer
 
-![.NET Framework](https://github.com/iberisoft/PacsExplorer/workflows/.NET%20Framework/badge.svg)
+[![.NET Framework](https://github.com/iberisoft/PacsExplorer/actions/workflows/dotnet.yml/badge.svg)](https://github.com/iberisoft/PacsExplorer/actions/workflows/dotnet.yml)
 
 A window implementing DICONDE store and query/retrieve SCU.
 
