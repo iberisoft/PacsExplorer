@@ -1,4 +1,4 @@
-name: .NET Framework
+name: .NET
 
 on: [push]
 
@@ -11,11 +11,5 @@ jobs:
     - uses: actions/checkout@v2
       with:
         submodules: true
-    - name: Setup Nuget.exe
-      uses: NuGet/setup-nuget@v1.0.5
-    - name: Restore packages
-      run: nuget restore PacsExplorer.sln
-    - name: Setup MSBuild.exe
-      uses: microsoft/setup-msbuild@v1
-    - name: Build with MSBuild
-      run: msbuild PacsExplorer.sln -p:Configuration=Release
+    - name: Build
+      run: dotnet build PacsExplorer.sln
