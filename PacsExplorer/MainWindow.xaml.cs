@@ -21,7 +21,7 @@ namespace PacsExplorer
     /// </summary>
     public partial class MainWindow : Window
     {
-        readonly Properties.Settings m_Settings = Properties.Settings.Default;
+        readonly Settings m_Settings = Settings.Default;
 
         public MainWindow()
         {
